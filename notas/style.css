@@ -1,0 +1,64 @@
+/* Tokens iguais aos da calculadora (tema do app). */
+:root {
+  --bg: #171a21;
+  --panel: #1c2029;
+  --panel-2: #232833;
+  --text: #e6e9ef;
+  --muted: #9aa3b2;
+  --faint: #6b7484;
+  --accent: #3fb5d8;
+  --ok: #43b581;
+  --danger: #d9695f;
+  --line: #2a2f3a;
+  --radius: 12px;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f1f3f7;
+    --panel: #ffffff;
+    --panel-2: #eceef2;
+    --text: #1b1f27;
+    --muted: #5c6470;
+    --faint: #8a93a0;
+    --accent: #1f8bb5;
+    --ok: #2e9e63;
+    --danger: #c9483f;
+    --line: #d9dde3;
+    color-scheme: light;
+  }
+}
+
+* { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: var(--panel-2) transparent; }
+html, body { height: 100%; }
+body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+.app { display: flex; flex-direction: column; height: 100%; padding: 12px; gap: 10px; }
+.app-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.app-title { margin: 0; font-size: 16px; }
+.app-sub { color: var(--faint); font-size: 12px; }
+
+.add { display: flex; gap: 8px; }
+.add input { flex: 1; min-width: 0; padding: 9px 12px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--panel); color: var(--text); font: inherit; }
+.add input:focus, .item-edit:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.btn { padding: 9px 14px; border: 0; border-radius: var(--radius); background: var(--accent); color: #062029; font: inherit; font-weight: 600; cursor: pointer; }
+.btn:disabled { opacity: .45; cursor: default; }
+
+.filters { display: flex; gap: 6px; }
+.chip { padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--panel-2); color: var(--text); border-color: var(--accent); }
+
+.list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; min-height: 0; }
+.item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.item input[type="checkbox"] { margin-top: 3px; accent-color: var(--ok); cursor: pointer; }
+.item-text { flex: 1; min-width: 0; overflow-wrap: anywhere; cursor: text; }
+.item.done .item-text { color: var(--faint); text-decoration: line-through; }
+.item-edit { flex: 1; min-width: 0; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel-2); color: var(--text); font: inherit; }
+.item-del { border: 0; background: transparent; color: var(--faint); cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 4px; }
+.item-del:hover { color: var(--danger); }
+
+.empty, .status { color: var(--muted); text-align: center; padding: 18px 8px; font-size: 13px; }
+.status.err { color: var(--danger); }
+.foot { color: var(--faint); font-size: 12px; display: flex; justify-content: space-between; }
+.foot button { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; text-decoration: underline; }

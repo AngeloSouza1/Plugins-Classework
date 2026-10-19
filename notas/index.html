@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notas rápidas</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1 class="app-title">Notas rápidas</h1>
+      <span class="app-sub" id="count"></span>
+    </header>
+
+    <form class="add" id="add-form" autocomplete="off">
+      <input id="add-input" type="text" maxlength="300" placeholder="Anotar algo e apertar Enter…" disabled />
+      <button class="btn" id="add-btn" type="submit" disabled>Adicionar</button>
+    </form>
+
+    <div class="filters" role="group" aria-label="Filtro">
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">Todas</button>
+      <button class="chip" type="button" data-filter="open" aria-pressed="false">Pendentes</button>
+      <button class="chip" type="button" data-filter="done" aria-pressed="false">Concluídas</button>
+    </div>
+
+    <div class="list" id="list" aria-live="polite"></div>
+    <div class="status" id="status">Conectando ao DESCORDE…</div>
+
+    <div class="foot">
+      <span>Mesmas notas da sua Minha Página</span>
+      <button type="button" id="clear-done" hidden>Apagar concluídas</button>
+    </div>
+  </div>
+
+  <!-- Script clássico (módulos não carregam no sandbox). SDK = cópia do DESCORDE. -->
+  <script src="../plugin-sdk.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

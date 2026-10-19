@@ -14,9 +14,10 @@ Cadastro no painel admin do DESCORDE (Minha Página → Gerencial → Plugins):
 | Plugin      | URL                                            |
 | ----------- | ---------------------------------------------- |
 | calculadora | `http://localhost:5180/calculadora/index.html` |
+| notas | `http://localhost:5180/notas/index.html` (escopos `notes:read` + `notes:write`) |
 | teste | `http://localhost:5180/teste/index.html` |
 
-Imagem da apresentação: `http://localhost:5180/calculadora/capa.svg`
+Imagem da apresentação: `http://localhost:5180/calculadora/capa.svg` · `http://localhost:5180/notas/capa.svg`
 
 ## Produção
 

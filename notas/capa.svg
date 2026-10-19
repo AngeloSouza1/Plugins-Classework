@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Notas rápidas">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#101218" /><stop offset="0.55" stop-color="#1c2029" /><stop offset="1" stop-color="#12303c" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="#3fb5d8" stop-opacity="0.28" /><stop offset="1" stop-color="#3fb5d8" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)" />
+  <rect width="800" height="600" fill="url(#glow)" />
+  <rect x="190" y="80" width="420" height="440" rx="26" fill="#232833" stroke="#2a2f3a" stroke-width="2" />
+  <text x="230" y="150" font-family="system-ui, sans-serif" font-size="30" font-weight="700" fill="#e6e9ef">Notas rápidas</text>
+  <g font-family="system-ui, sans-serif" font-size="24" fill="#e6e9ef">
+    <rect x="230" y="190" width="340" height="56" rx="12" fill="#1c2029" stroke="#2a2f3a" />
+    <rect x="246" y="206" width="24" height="24" rx="6" fill="#43b581" /><path d="M251 218l6 6 10-12" stroke="#062029" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="284" y="226" fill="#6b7484" text-decoration="line-through">Ligar para o cliente</text>
+    <rect x="230" y="260" width="340" height="56" rx="12" fill="#1c2029" stroke="#2a2f3a" />
+    <rect x="246" y="276" width="24" height="24" rx="6" fill="none" stroke="#9aa3b2" stroke-width="2" />
+    <text x="284" y="296">Enviar proposta</text>
+    <rect x="230" y="330" width="340" height="56" rx="12" fill="#1c2029" stroke="#2a2f3a" />
+    <rect x="246" y="346" width="24" height="24" rx="6" fill="none" stroke="#9aa3b2" stroke-width="2" />
+    <text x="284" y="366">Revisar contrato</text>
+    <rect x="230" y="430" width="340" height="48" rx="12" fill="#3fb5d8" opacity="0.9" />
+    <text x="400" y="462" text-anchor="middle" font-weight="700" fill="#062029">Adicionar</text>
+  </g>
+</svg>

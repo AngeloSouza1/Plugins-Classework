@@ -3,6 +3,8 @@
 //   const dc = DescordePlugin.init();
 //   await dc.ready();
 //   const me = await dc.me();
+// Notas (escopos notes:read / notes:write): dc.notes(), dc.createNote(text),
+//   dc.updateNote(id, { text, done }), dc.deleteNote(id).
 // Aceita só mensagens vindas da janela pai (window.parent) com type "descorde:session".
 (function () {
   "use strict";
@@ -51,14 +53,20 @@
   }
 
   // Chama um endpoint com token. Em 401, pede refresh no máximo UMA vez por chamada.
-  function request(path, params) {
+  function request(path, params, opts) {
     return ready().then(function () {
       if (!session || !session.token) {
         return Promise.reject(new Error("Este plugin não tem escopos e não pode chamar a API"));
       }
       function doFetch(retried) {
         var url = session.apiBase + path + (params ? "?" + new URLSearchParams(params) : "");
-        return fetch(url, { headers: { Authorization: "Bearer " + session.token } }).then(function (res) {
+        var headers = { Authorization: "Bearer " + session.token };
+        var init = { method: (opts && opts.method) || "GET", headers: headers };
+        if (opts && opts.body !== undefined) {
+          headers["Content-Type"] = "application/json";
+          init.body = JSON.stringify(opts.body);
+        }
+        return fetch(url, init).then(function (res) {
           if (res.status === 403) {
             return Promise.reject(makeError(403, "Acesso revogado ou escopo insuficiente", "REVOKED_OR_SCOPE"));
           }
@@ -103,6 +111,12 @@
         me: function () { return request("/me"); },
         servers: function () { return request("/servers").then(function (r) { return r.servers; }); },
         tasks: function (opts) { return request("/tasks", opts).then(function (r) { return r.tasks; }); },
+        notes: function () { return request("/notes").then(function (r) { return r.notes; }); },
+        createNote: function (text) { return request("/notes", null, { method: "POST", body: { text: text } }); },
+        updateNote: function (id, patch) {
+          return request("/notes/" + encodeURIComponent(id), null, { method: "PATCH", body: patch });
+        },
+        deleteNote: function (id) { return request("/notes/" + encodeURIComponent(id), null, { method: "DELETE" }); },
       };
       return instance;
     },

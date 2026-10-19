@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Calculadora">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#101218" />
+      <stop offset="0.55" stop-color="#1c2029" />
+      <stop offset="1" stop-color="#12303c" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="#3fb5d8" stop-opacity="0.28" />
+      <stop offset="1" stop-color="#3fb5d8" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="calcBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#262c38" />
+      <stop offset="1" stop-color="#1c2029" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)" />
+  <rect width="800" height="600" fill="url(#glow)" />
+
+  <!-- silhueta discreta de prédios (modo imobiliário) -->
+  <g fill="#3fb5d8" opacity="0.07">
+    <rect x="36" y="440" width="96" height="160" rx="6" />
+    <rect x="148" y="486" width="72" height="114" rx="6" />
+    <rect x="648" y="430" width="108" height="170" rx="6" />
+    <rect x="768" y="472" width="52" height="128" rx="6" />
+  </g>
+
+  <!-- corpo da calculadora -->
+  <rect x="205" y="60" width="390" height="490" rx="30" fill="url(#calcBody)" stroke="#2a2f3a" stroke-width="2" />
+
+  <!-- display -->
+  <rect x="235" y="95" width="330" height="86" rx="16" fill="#101218" stroke="#2a2f3a" stroke-width="1.5" />
+  <!-- casinha no display -->
+  <g fill="#3fb5d8">
+    <polygon points="250,132 262,114 274,132" />
+    <rect x="253" y="132" width="18" height="17" rx="2" />
+  </g>
+  <rect x="259" y="140" width="6" height="9" fill="#101218" />
+  <text x="548" y="141" text-anchor="end" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="46" font-weight="600" fill="#e6e9ef">0</text>
+
+  <!-- teclas -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" font-weight="600" text-anchor="middle">
+    <!-- linha 1 -->
+    <g fill="#2b313c" stroke="#2a2f3a" stroke-width="1.5">
+      <rect x="235" y="205" width="74" height="52" rx="12" /><text x="272" y="237" fill="#e6e9ef">7</text>
+      <rect x="321" y="205" width="74" height="52" rx="12" /><text x="358" y="237" fill="#e6e9ef">8</text>
+      <rect x="407" y="205" width="74" height="52" rx="12" /><text x="444" y="237" fill="#e6e9ef">9</text>
+    </g>
+    <rect x="493" y="205" width="74" height="52" rx="12" fill="#1c2f39" stroke="#2a2f3a" stroke-width="1.5" /><text x="530" y="238" fill="#3fb5d8">÷</text>
+
+    <!-- linha 2 -->
+    <g fill="#2b313c" stroke="#2a2f3a" stroke-width="1.5">
+      <rect x="235" y="269" width="74" height="52" rx="12" /><text x="272" y="301" fill="#e6e9ef">4</text>
+      <rect x="321" y="269" width="74" height="52" rx="12" /><text x="358" y="301" fill="#e6e9ef">5</text>
+      <rect x="407" y="269" width="74" height="52" rx="12" /><text x="444" y="301" fill="#e6e9ef">6</text>
+    </g>
+    <rect x="493" y="269" width="74" height="52" rx="12" fill="#1c2f39" stroke="#2a2f3a" stroke-width="1.5" /><text x="530" y="302" fill="#3fb5d8">×</text>
+
+    <!-- linha 3 -->
+    <g fill="#2b313c" stroke="#2a2f3a" stroke-width="1.5">
+      <rect x="235" y="333" width="74" height="52" rx="12" /><text x="272" y="365" fill="#e6e9ef">1</text>
+      <rect x="321" y="333" width="74" height="52" rx="12" /><text x="358" y="365" fill="#e6e9ef">2</text>
+      <rect x="407" y="333" width="74" height="52" rx="12" /><text x="444" y="365" fill="#e6e9ef">3</text>
+    </g>
+    <rect x="493" y="333" width="74" height="52" rx="12" fill="#1c2f39" stroke="#2a2f3a" stroke-width="1.5" /><text x="530" y="366" fill="#3fb5d8">−</text>
+
+    <!-- linha 4 -->
+    <g fill="#2b313c" stroke="#2a2f3a" stroke-width="1.5">
+      <rect x="235" y="397" width="74" height="52" rx="12" /><text x="272" y="429" fill="#e6e9ef">0</text>
+      <rect x="321" y="397" width="74" height="52" rx="12" /><text x="358" y="429" fill="#e6e9ef">,</text>
+    </g>
+    <rect x="407" y="397" width="74" height="52" rx="12" fill="#1c2f39" stroke="#2a2f3a" stroke-width="1.5" /><text x="444" y="430" fill="#3fb5d8">%</text>
+    <rect x="493" y="397" width="74" height="52" rx="12" fill="#1c2f39" stroke="#2a2f3a" stroke-width="1.5" /><text x="530" y="430" fill="#3fb5d8">+</text>
+
+    <!-- = em destaque -->
+    <rect x="235" y="461" width="332" height="52" rx="12" fill="#3fb5d8" />
+    <text x="401" y="494" fill="#0b1014" font-size="24">=</text>
+  </g>
+</svg>

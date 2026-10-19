@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1 class="app-title">Calculadora</h1>
+      <span class="app-sub">Comum · Científica · Imobiliária</span>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="Modos da calculadora">
+      <button class="tab" id="tab-basica" role="tab" aria-selected="true" aria-controls="panel-basica" tabindex="0">Básica</button>
+      <button class="tab" id="tab-cientifica" role="tab" aria-selected="false" aria-controls="panel-cientifica" tabindex="-1">Científica</button>
+      <button class="tab" id="tab-imobiliaria" role="tab" aria-selected="false" aria-controls="panel-imobiliaria" tabindex="-1">Imobiliária</button>
+    </div>
+
+    <section class="panel" id="panel-basica" role="tabpanel" aria-labelledby="tab-basica">
+      <div class="calc">
+        <div class="display">
+          <div class="display-expr" id="expr-basica" aria-hidden="true">&nbsp;</div>
+          <div class="display-result" id="result-basica" aria-live="polite">0</div>
+        </div>
+        <div class="toolbar">
+          <button class="btn ghost" type="button" data-action="history">Histórico</button>
+          <button class="btn ghost" type="button" data-action="copy">Copiar resultado</button>
+        </div>
+        <div class="history" hidden>
+          <div class="history-head">
+            <span>Histórico</span>
+            <button class="btn ghost small" type="button" data-action="clear-history">Limpar</button>
+          </div>
+          <ul class="history-list"></ul>
+        </div>
+        <div class="keypad keypad-basic">
+          <button class="key key-fn" type="button" data-key="lparen">(</button>
+          <button class="key key-fn" type="button" data-key="rparen">)</button>
+          <button class="key key-danger" type="button" data-key="clear">C</button>
+          <button class="key key-fn" type="button" data-key="backspace">⌫</button>
+
+          <button class="key" type="button" data-key="7">7</button>
+          <button class="key" type="button" data-key="8">8</button>
+          <button class="key" type="button" data-key="9">9</button>
+          <button class="key key-op" type="button" data-key="divide">÷</button>
+
+          <button class="key" type="button" data-key="4">4</button>
+          <button class="key" type="button" data-key="5">5</button>
+          <button class="key" type="button" data-key="6">6</button>
+          <button class="key key-op" type="button" data-key="times">×</button>
+
+          <button class="key" type="button" data-key="1">1</button>
+          <button class="key" type="button" data-key="2">2</button>
+          <button class="key" type="button" data-key="3">3</button>
+          <button class="key key-op" type="button" data-key="minus">−</button>
+
+          <button class="key key-fn" type="button" data-key="negate">±</button>
+          <button class="key" type="button" data-key="0">0</button>
+          <button class="key" type="button" data-key="decimal">,</button>
+          <button class="key key-op" type="button" data-key="plus">+</button>
+
+          <button class="key key-fn" type="button" data-key="percent">%</button>
+          <button class="key key-equals" type="button" data-key="equals">=</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-cientifica" role="tabpanel" aria-labelledby="tab-cientifica" hidden>
+      <div class="calc">
+        <div class="display">
+          <div class="display-expr" id="expr-cientifica" aria-hidden="true">&nbsp;</div>
+          <div class="display-result" id="result-cientifica" aria-live="polite">0</div>
+        </div>
+        <div class="toolbar">
+          <div class="segmented" role="group" aria-label="Unidade de ângulo">
+            <button class="seg active" type="button" data-angle="deg">GRAUS</button>
+            <button class="seg" type="button" data-angle="rad">RAD</button>
+          </div>
+          <div class="toolbar-spacer"></div>
+          <button class="btn ghost" type="button" data-action="history">Histórico</button>
+          <button class="btn ghost" type="button" data-action="copy">Copiar resultado</button>
+        </div>
+        <div class="history" hidden>
+          <div class="history-head">
+            <span>Histórico</span>
+            <button class="btn ghost small" type="button" data-action="clear-history">Limpar</button>
+          </div>
+          <ul class="history-list"></ul>
+        </div>
+        <div class="keypad keypad-sci">
+          <button class="key key-fn" type="button" data-key="sin">sin</button>
+          <button class="key key-fn" type="button" data-key="cos">cos</button>
+          <button class="key key-fn" type="button" data-key="tan">tan</button>
+          <button class="key key-fn" type="button" data-key="lparen">(</button>
+
+          <button class="key key-fn" type="button" data-key="sqrt">√</button>
+          <button class="key key-fn" type="button" data-key="sq">x²</button>
+          <button class="key key-fn" type="button" data-key="pow">xʸ</button>
+          <button class="key key-fn" type="button" data-key="rparen">)</button>
+
+          <button class="key key-fn" type="button" data-key="log">log</button>
+          <button class="key key-fn" type="button" data-key="ln">ln</button>
+          <button class="key key-fn" type="button" data-key="inv">1/x</button>
+          <button class="key key-fn" type="button" data-key="backspace">⌫</button>
+
+          <button class="key key-fn" type="button" data-key="pi">π</button>
+          <button class="key key-fn" type="button" data-key="euler">e</button>
+          <button class="key key-fn" type="button" data-key="fact">n!</button>
+          <button class="key key-fn" type="button" data-key="abs">abs</button>
+
+          <button class="key" type="button" data-key="7">7</button>
+          <button class="key" type="button" data-key="8">8</button>
+          <button class="key" type="button" data-key="9">9</button>
+          <button class="key key-op" type="button" data-key="divide">÷</button>
+
+          <button class="key" type="button" data-key="4">4</button>
+          <button class="key" type="button" data-key="5">5</button>
+          <button class="key" type="button" data-key="6">6</button>
+          <button class="key key-op" type="button" data-key="times">×</button>
+
+          <button class="key" type="button" data-key="1">1</button>
+          <button class="key" type="button" data-key="2">2</button>
+          <button class="key" type="button" data-key="3">3</button>
+          <button class="key key-op" type="button" data-key="minus">−</button>
+
+          <button class="key key-fn" type="button" data-key="negate">±</button>
+          <button class="key" type="button" data-key="0">0</button>
+          <button class="key" type="button" data-key="decimal">,</button>
+          <button class="key key-op" type="button" data-key="plus">+</button>
+
+          <button class="key key-fn" type="button" data-key="percent">%</button>
+          <button class="key key-danger" type="button" data-key="clear">C</button>
+          <button class="key key-equals" type="button" data-key="equals">=</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-imobiliaria" role="tabpanel" aria-labelledby="tab-imobiliaria" hidden>
+      <div class="imob">
+        <details class="imob-item" open>
+          <summary>Financiamento (Price × SAC)</summary>
+          <div class="imob-body">
+            <div class="form-grid">
+              <label>Valor do imóvel
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="financing" name="propertyValue" placeholder="0,00" />
+              </label>
+              <label>Entrada
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="financing" name="entry" placeholder="0,00" />
+              </label>
+              <label>Entrada em
+                <select data-calc-field="financing" name="entryMode">
+                  <option value="money">R$</option>
+                  <option value="percent">%</option>
+                </select>
+              </label>
+              <label>Prazo (meses)
+                <input type="text" inputmode="numeric" data-type="int" data-calc-field="financing" name="months" placeholder="360" />
+              </label>
+              <label>Taxa de juros (a.a. %)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="financing" name="annualRate" placeholder="10" />
+              </label>
+              <label>Seguros/taxas mensais (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="financing" name="monthlyFee" placeholder="0,00" />
+              </label>
+            </div>
+            <button class="btn primary" type="button" data-calc-run="financing">Calcular</button>
+            <div class="results" data-results="financing"></div>
+          </div>
+        </details>
+
+        <details class="imob-item">
+          <summary>Capacidade de pagamento</summary>
+          <div class="imob-body">
+            <div class="form-grid">
+              <label>Renda bruta familiar (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="capacity" name="grossIncome" placeholder="0,00" />
+              </label>
+              <label>% comprometível
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="capacity" name="commitmentPct" value="30" />
+              </label>
+              <label>Prazo (meses)
+                <input type="text" inputmode="numeric" data-type="int" data-calc-field="capacity" name="months" placeholder="360" />
+              </label>
+              <label>Taxa de juros (a.a. %)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="capacity" name="annualRate" placeholder="10" />
+              </label>
+              <label>Entrada disponível (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="capacity" name="entry" placeholder="0,00" />
+              </label>
+            </div>
+            <button class="btn primary" type="button" data-calc-run="capacity">Calcular</button>
+            <div class="results" data-results="capacity"></div>
+          </div>
+        </details>
+
+        <details class="imob-item">
+          <summary>Aluguel × Compra</summary>
+          <div class="imob-body">
+            <div class="form-grid">
+              <label>Valor do imóvel (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="rentbuy" name="propertyValue" placeholder="0,00" />
+              </label>
+              <label>Aluguel mensal (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="rentbuy" name="monthlyRent" placeholder="0,00" />
+              </label>
+              <label>Rendimento da aplicação (a.m. %)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="rentbuy" name="monthlyYieldRate" placeholder="0,8" />
+              </label>
+              <label>Valorização anual do imóvel (%)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="rentbuy" name="annualAppreciation" placeholder="5" />
+              </label>
+              <label>Reajuste anual do aluguel (%)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="rentbuy" name="annualRentAdjustment" placeholder="5" />
+              </label>
+              <label>Horizonte (anos)
+                <input type="text" inputmode="numeric" data-type="int" data-calc-field="rentbuy" name="horizonYears" placeholder="10" />
+              </label>
+            </div>
+            <button class="btn primary" type="button" data-calc-run="rentbuy">Calcular</button>
+            <div class="results" data-results="rentbuy"></div>
+          </div>
+        </details>
+
+        <details class="imob-item">
+          <summary>Rentabilidade de aluguel</summary>
+          <div class="imob-body">
+            <div class="form-grid">
+              <label>Preço de compra (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="rental" name="price" placeholder="0,00" />
+              </label>
+              <label>Aluguel mensal (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="rental" name="monthlyRent" placeholder="0,00" />
+              </label>
+              <label>Condomínio mensal (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="rental" name="condo" placeholder="0,00" />
+              </label>
+              <label>IPTU anual (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="rental" name="iptu" placeholder="0,00" />
+              </label>
+              <label>Manutenção mensal (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="rental" name="maintenance" placeholder="0,00" />
+              </label>
+              <label>Vacância (% do ano)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="rental" name="vacancyPct" placeholder="0" />
+              </label>
+            </div>
+            <button class="btn primary" type="button" data-calc-run="rental">Calcular</button>
+            <div class="results" data-results="rental"></div>
+          </div>
+        </details>
+
+        <details class="imob-item">
+          <summary>Custos de aquisição</summary>
+          <div class="imob-body">
+            <div class="form-grid">
+              <label>Valor do imóvel (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="acq" name="price" placeholder="0,00" />
+              </label>
+              <label>ITBI (%)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="acq" name="itbiPct" value="3" />
+              </label>
+              <label>Registro/escritura (%)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="acq" name="registroPct" value="1" />
+              </label>
+              <label>Avaliação bancária (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="acq" name="appraisalFee" placeholder="0,00" />
+              </label>
+            </div>
+            <p class="hint">Valores são estimativas e variam por cidade.</p>
+            <button class="btn primary" type="button" data-calc-run="acq">Calcular</button>
+            <div class="results" data-results="acq"></div>
+          </div>
+        </details>
+
+        <details class="imob-item">
+          <summary>Preço por m² e comparação</summary>
+          <div class="imob-body">
+            <h3 class="imob-subtitle">Conversões</h3>
+            <div class="form-grid">
+              <label>Preço total (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="m2" name="price" placeholder="0,00" />
+              </label>
+              <label>Área (m²)
+                <input type="text" inputmode="decimal" data-type="num" data-calc-field="m2" name="area" placeholder="0" />
+              </label>
+              <label>Preço por m² (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="m2" name="priceM2" placeholder="0,00" />
+              </label>
+            </div>
+            <button class="btn primary" type="button" data-calc-run="m2">Converter</button>
+            <div class="results" data-results="m2"></div>
+
+            <h3 class="imob-subtitle">Comparar dois imóveis</h3>
+            <div class="form-grid">
+              <label>Imóvel A — preço (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="compare" name="priceA" placeholder="0,00" />
+              </label>
+              <label>Imóvel A — área (m²)
+                <input type="text" inputmode="decimal" data-type="num" data-calc-field="compare" name="areaA" placeholder="0" />
+              </label>
+              <label>Imóvel B — preço (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="compare" name="priceB" placeholder="0,00" />
+              </label>
+              <label>Imóvel B — área (m²)
+                <input type="text" inputmode="decimal" data-type="num" data-calc-field="compare" name="areaB" placeholder="0" />
+              </label>
+            </div>
+            <button class="btn primary" type="button" data-calc-run="compare">Comparar</button>
+            <div class="results" data-results="compare"></div>
+          </div>
+        </details>
+
+        <details class="imob-item">
+          <summary>Ganho de capital (venda)</summary>
+          <div class="imob-body">
+            <div class="form-grid">
+              <label>Preço de compra (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="gain" name="buyPrice" placeholder="0,00" />
+              </label>
+              <label>Custos (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="gain" name="costs" placeholder="0,00" />
+              </label>
+              <label>Preço de venda (R$)
+                <input type="text" inputmode="decimal" data-type="money" data-calc-field="gain" name="sellPrice" placeholder="0,00" />
+              </label>
+              <label>Alíquota de IR (%)
+                <input type="text" inputmode="decimal" data-type="percent" data-calc-field="gain" name="irPct" value="15" />
+              </label>
+            </div>
+            <p class="hint">Não considera isenções ou regras específicas de IR.</p>
+            <button class="btn primary" type="button" data-calc-run="gain">Calcular</button>
+            <div class="results" data-results="gain"></div>
+          </div>
+        </details>
+      </div>
+
+      <footer class="imob-footer">Simulação informativa; não substitui proposta de instituição financeira.</footer>
+    </section>
+  </div>
+
+  <script src="./calc.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

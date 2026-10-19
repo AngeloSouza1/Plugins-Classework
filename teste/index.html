@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plugin de teste</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; padding: 16px; font: 14px/1.5 system-ui, sans-serif; background: #1e1f22; color: #e3e5e8; }
+    h1 { font-size: 16px; margin: 0 0 12px; }
+    h2 { font-size: 13px; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: .04em; color: #949ba4; }
+    .card { background: #2b2d31; border-radius: 8px; padding: 10px 12px; }
+    .row { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+    .row img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; background: #404249; }
+    .meta { color: #949ba4; font-size: 12px; }
+    .ok { color: #23a559; }
+    .err { color: #f23f42; }
+  </style>
+</head>
+<body>
+  <h1>Plugin de teste do DESCORDE</h1>
+  <div id="status" class="meta">Aguardando sessão do DESCORDE...</div>
+
+  <h2>Usuário (user:read)</h2>
+  <div id="me" class="card meta">...</div>
+
+  <h2>Servidores (servers:read)</h2>
+  <div id="servers" class="card meta">...</div>
+
+  <h2>Minhas tarefas (tasks:read)</h2>
+  <div id="tasks" class="card meta">...</div>
+
+  <!-- Cópia do SDK do DESCORDE, hospedada junto com os plugins. -->
+  <script src="../plugin-sdk.js"></script>
+  <script>
+    var $ = function (id) { return document.getElementById(id); };
+
+    function show(el, html) { el.className = "card"; el.innerHTML = html; }
+    function fail(el, e) {
+      el.className = "card err";
+      el.textContent = e.code === "REVOKED_OR_SCOPE"
+        ? "Sem permissão (escopo não liberado para este plugin)"
+        : (e.message || "Erro");
+    }
+    function esc(s) {
+      var d = document.createElement("div");
+      d.textContent = s == null ? "" : String(s);
+      return d.innerHTML;
+    }
+
+    var dc = DescordePlugin.init();
+
+    dc.ready().then(function (session) {
+      $("status").innerHTML = '<span class="ok">Conectado.</span> Escopos: ' +
+        esc((session.scopes || []).join(", ") || "nenhum");
+
+      if (!session.token) {
+        // Plugin sem escopos: funciona como página independente.
+        ["me", "servers", "tasks"].forEach(function (id) {
+          $(id).textContent = "Este plugin não tem escopos cadastrados.";
+        });
+        return;
+      }
+
+      dc.me().then(function (me) {
+        show($("me"),
+          '<div class="row">' +
+          (me.avatarUrl ? '<img src="' + esc(me.avatarUrl) + '" alt="">' : "") +
+          "<div><strong>" + esc(me.displayName || me.username) + '</strong><div class="meta">@' + esc(me.username) + "</div></div></div>");
+      }).catch(function (e) { fail($("me"), e); });
+
+      dc.servers().then(function (servers) {
+        show($("servers"), servers.length
+          ? servers.map(function (s) { return '<div class="row">' + esc(s.name) + "</div>"; }).join("")
+          : '<span class="meta">Nenhum servidor.</span>');
+      }).catch(function (e) { fail($("servers"), e); });
+
+      dc.tasks().then(function (tasks) {
+        show($("tasks"), tasks.length
+          ? tasks.map(function (t) {
+              return '<div class="row"><span>#' + esc(t.number) + " " + esc(t.title) +
+                '</span><span class="meta">' + esc(t.status) + " · " + esc(t.priority) + "</span></div>";
+            }).join("")
+          : '<span class="meta">Nenhuma tarefa atribuída a você.</span>');
+      }).catch(function (e) { fail($("tasks"), e); });
+    }).catch(function (e) {
+      $("status").className = "err";
+      $("status").textContent = "Sem sessão do DESCORDE (abra este plugin dentro do app): " + e.message;
+    });
+  </script>
+</body>
+</html>

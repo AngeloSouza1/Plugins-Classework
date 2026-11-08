@@ -48,10 +48,17 @@
     return false;
   }
 
+  // Dentro do Classework o plugin roda isolado (sem localStorage). Aí as preferências ficam
+  // guardadas pela página do Classework, que responde às mensagens plugin:storage*.
+  var embedded = window.parent && window.parent !== window;
+  var hostRaw = null;
+
   function loadPrefs() {
     var p = clone(DEFAULTS);
     try {
-      var raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      var stored = null;
+      try { stored = localStorage.getItem(STORAGE_KEY); } catch (_) { /* isolado */ }
+      var raw = JSON.parse(stored || hostRaw || "null");
       if (raw && typeof raw === "object") {
         if (typeof raw.enabled === "boolean") p.enabled = raw.enabled;
         if (IDLE_OPTIONS.indexOf(Number(raw.idleMinutes)) >= 0) p.idleMinutes = Number(raw.idleMinutes);
@@ -97,6 +104,9 @@
   var prefs = loadPrefs();
 
   function savePrefs() {
+    if (embedded) {
+      try { window.parent.postMessage({ type: "plugin:storage:set", value: JSON.stringify(prefs) }, "*"); } catch (_) { /* sem host */ }
+    }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
     } catch (_) {
@@ -895,5 +905,24 @@
       });
   }
 
-  init();
+  // Embutido: espera (até 800 ms) o Classework devolver as preferências guardadas antes de montar a tela.
+  if (embedded) {
+    var booted = false;
+    var boot = function () {
+      if (booted) return;
+      booted = true;
+      prefs = loadPrefs();
+      init();
+    };
+    window.addEventListener("message", function (e) {
+      if (e.source === window.parent && e.data && e.data.type === "plugin:storage") {
+        hostRaw = typeof e.data.value === "string" ? e.data.value : null;
+        boot();
+      }
+    });
+    try { window.parent.postMessage({ type: "plugin:storage:get" }, "*"); } catch (_) { /* sem host */ }
+    setTimeout(boot, 800);
+  } else {
+    init();
+  }
 })();

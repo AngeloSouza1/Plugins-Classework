@@ -1,6 +1,6 @@
 Bibliotecas compartilhadas pelos temas Vanta (cópias locais, para funcionar sem internet):
 
-- three.js r134 (_lib/three.min.js)
+- three.js r134 (shared/three.min.js)
   Fonte: https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js
   Licença: MIT, Copyright 2010-2021 Three.js Authors (aviso no topo do arquivo)
 

@@ -64,7 +64,7 @@ protetor-de-tela/
     ├── vanta-birds/                       # tema: pássaros 3D (Vanta.js), com opções
     ├── vanta-waves/                       # tema: ondas 3D (Vanta.js), com opções
     ├── city/, space/                      # temas de vídeo (MP4 em loop), com opções
-    ├── _lib/                              # three.js e video-theme.js, compartilhados
+    ├── shared/                            # three.js e video-theme.js, compartilhados
     └── _template/                         # ponto de partida para um tema novo
 ```
 
@@ -124,7 +124,7 @@ como "Fechar com clique". Veja `themes/vanta-birds/` como exemplo completo.
 
 Para transformar um MP4 em tema, copie `themes/city/` (ou `space/`), troque o arquivo `.mp4` e o nome em
 `data-src` no `index.html`, e registre em `themes/themes.json` com as opções `brightness`, `speed` e `fit`
-(copie de `city`). O player (`_lib/video-theme.js`) toca sem som e em loop, pausa com a aba oculta e aceita
+(copie de `city`). O player (`shared/video-theme.js`) toca sem som e em loop, pausa com a aba oculta e aceita
 essas opções ao vivo. Dicas:
 
 - Use H.264 (MP4): é o que todos os navegadores tocam. Vídeos de 720p a 1080p, com 10 a 30 s, bastam.
@@ -138,6 +138,13 @@ essas opções ao vivo. Dicas:
   para o repositório** (ver `.gitignore`): para esses dois temas funcionarem depois de clonar, coloque os
   arquivos `themes/city/202824-919000180.mp4` e `themes/space/space-1080p.mp4` (ou troque o nome em
   `data-src` do `index.html` de cada tema). Sem o arquivo, o tema mostra um aviso em vez de quebrar.
+
+### Publicando no GitHub Pages
+
+O Pages usa Jekyll, que **ignora pastas e arquivos que começam com `_`**. Por isso a pasta compartilhada se chama
+`shared/` (e não `_lib/`): com `_lib/` o `three.js` dava 404 online e os temas Vanta não carregavam. Não use `_` no
+começo do nome de nada que o app precise carregar. (`themes/_template/` é só um modelo para copiar, não precisa
+ficar online.)
 
 ### Bibliotecas dentro de um tema
 

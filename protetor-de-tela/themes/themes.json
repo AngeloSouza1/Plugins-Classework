@@ -247,7 +247,7 @@
         }
       ],
       "requires": [
-        "themes/city/202824-919000180.mp4"
+        "themes/city/city-light.mp4"
       ]
     },
     {
@@ -310,7 +310,7 @@
         }
       ],
       "requires": [
-        "themes/space/space-1080p.mp4"
+        "themes/space/space-light.mp4"
       ]
     }
   ]

@@ -1,6 +1,7 @@
-# Vídeo original (720p) do Mixkit: nenhum tema o usa (o tema Espaço usa o space-1080p.mp4, gerado a partir dele).
-# Fica só no computador de quem o baixou.
-themes/space/mixkit-*.mp4
+# Vídeos: só os arquivos leves "*-light.mp4" (usados pelos temas) vão para o repositório.
+# Originais e versões pesadas ficam só no computador de quem os baixou/gerou.
+themes/*/*.mp4
+!themes/*/*-light.mp4
 .DS_Store
 node_modules/
 __pycache__/

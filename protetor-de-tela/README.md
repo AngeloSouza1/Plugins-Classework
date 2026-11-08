@@ -131,15 +131,18 @@ essas opções ao vivo. Dicas:
 - Se o índice do MP4 estiver no fim do arquivo (caso do `city`), o `serve.py` resolve com `Range`. Para
   começar mais rápido, dá para reempacotar sem recodificar: `ffmpeg -i in.mp4 -c copy -movflags +faststart out.mp4`.
 - Vídeo fosco ou "macio"? Quase sempre é a resolução: um vídeo 720p esticado numa tela maior perde nitidez.
-  O tema Espaço usa `space-1080p.mp4`, gerado do original (que foi mantido na pasta) assim:
-  `ffmpeg -i original.mp4 -an -vf "scale=1920:1080:flags=lanczos,unsharp=lx=5:ly=5:la=0.9:cx=3:cy=3:ca=0.0,eq=contrast=1.10:saturation=1.15:brightness=0.02" -c:v libx264 -preset slow -crf 28 -pix_fmt yuv420p -movflags +faststart saida.mp4`.
-  Nitidez mais forte que `la=0.9` cria halos e ruído; CRF menor que 28 deixa o arquivo muito grande (CRF 19 deu 100 MB).
+  O tema Espaço usa `space-light.mp4`, gerado do original (720p, do Mixkit) com ampliação Lanczos, nitidez leve,
+  um pouco de contraste e **redução leve de ruído** (que corta o tamanho pela metade sem borrar as estrelas):
+  `ffmpeg -i original.mp4 -an -vf "hqdn3d=3:2:5:5,scale=1920:1080:flags=lanczos,unsharp=lx=5:ly=5:la=0.9:cx=3:cy=3:ca=0.0,eq=contrast=1.10:saturation=1.15:brightness=0.02" -c:v libx264 -preset slow -crf 32 -profile:v high -pix_fmt yuv420p -r 30 -movflags +faststart space-light.mp4`.
+  A Cidade usa `city-light.mp4`: `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -crf 30 -profile:v high -pix_fmt yuv420p -movflags +faststart city-light.mp4`.
+  Para deixar um vídeo mais leve, suba o CRF (30 a 32 costuma bastar). Nitidez forte cria halos e ruído, e CRF 35 já
+  borra as estrelas. Meça antes de trocar: nesses dois vídeos, 40 MB viraram 16 MB.
 - Em `themes.json`, um tema pode declarar `"requires": ["themes/city/arquivo.mp4"]`. Se algum desses arquivos
   não existir na cópia em uso (404), o app **esconde o tema** e avisa embaixo da lista, em vez de mostrar uma
   animação que não vai tocar. É o que acontece online, onde os vídeos de exemplo não são publicados.
 - Confira a licença do vídeo antes de redistribuir a pasta. Os dois vídeos de exemplo estão no repositório
-  (`themes/city/202824-919000180.mp4` e `themes/space/space-1080p.mp4`, uns 40 MB juntos); a licença deles é de
-  quem os publicou, e o vídeo do Espaço vem do Mixkit. O original 720p do Mixkit **não** é publicado (`.gitignore`).
+  (`themes/city/city-light.mp4` e `themes/space/space-light.mp4`, uns 16 MB juntos); a licença deles é de quem os
+  publicou, e o vídeo do Espaço vem do Mixkit. Os originais e as versões pesadas **não** são publicados (`.gitignore`).
   Se um arquivo sumir, o tema é escondido sozinho (veja `requires` acima) em vez de quebrar.
 
 ### Publicando no GitHub Pages

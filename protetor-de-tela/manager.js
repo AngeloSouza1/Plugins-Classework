@@ -168,7 +168,28 @@
   // ---------- temas ----------
 
   var builtinThemes = [];
+  var hiddenThemes = []; // temas cujo arquivo exigido (ex.: um vídeo) não existe nesta cópia do plugin
   var themesLoaded = false; // vira true quando a lista de temas termina de carregar (com ou sem erro)
+
+  // Um tema pode declarar "requires": ["caminho/do/arquivo"]. Se algum não existir (404), o tema
+  // não aparece, em vez de listar uma animação que não vai tocar (ex.: vídeos fora do repositório).
+  function themeAvailable(t) {
+    var reqs = Array.isArray(t.requires) ? t.requires : [];
+    return Promise.all(reqs.map(function (path) {
+      return fetch(new URL(path, location.href).href, { method: "HEAD", cache: "no-store" })
+        .then(function (r) { return r.ok; })
+        .catch(function () { return false; });
+    })).then(function (oks) { return oks.every(Boolean); });
+  }
+
+  function filterAvailable(list) {
+    return Promise.all(list.map(themeAvailable)).then(function (flags) {
+      var kept = [];
+      var hidden = [];
+      list.forEach(function (t, i) { (flags[i] ? kept : hidden).push(t); });
+      return { kept: kept, hidden: hidden };
+    });
+  }
 
   function allThemes() {
     var list = builtinThemes.map(function (t) {
@@ -373,6 +394,15 @@
   function renderThemes() {
     var box = $("themes");
     box.textContent = "";
+    var note = $("themes-note");
+    if (hiddenThemes.length) {
+      var names = hiddenThemes.map(function (t) { return t.name; }).join(" e ");
+      note.textContent = names + (hiddenThemes.length > 1 ? " não aparecem" : " não aparece") + ": " +
+        (hiddenThemes.length > 1 ? "os arquivos de vídeo não estão" : "o arquivo de vídeo não está") + " nesta cópia do plugin (veja o README).";
+      note.hidden = false;
+    } else {
+      note.hidden = true;
+    }
     var all = allThemes();
     if (!all.length) {
       var empty = document.createElement("p");
@@ -823,7 +853,11 @@
         return r.json();
       })
       .then(function (data) {
-        builtinThemes = Array.isArray(data.themes) ? data.themes.filter(function (t) { return t && t.id && t.name && t.path; }) : [];
+        var all = Array.isArray(data.themes) ? data.themes.filter(function (t) { return t && t.id && t.name && t.path; }) : [];
+        return filterAvailable(all).then(function (r) {
+          builtinThemes = r.kept;
+          hiddenThemes = r.hidden;
+        });
       })
       .catch(function () {
         setMsg("custom-msg", "Não consegui ler themes/themes.json. Abra o app por um servidor local (veja o README).", "err");

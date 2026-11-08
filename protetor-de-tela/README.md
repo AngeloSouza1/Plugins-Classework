@@ -134,6 +134,9 @@ essas opções ao vivo. Dicas:
   O tema Espaço usa `space-1080p.mp4`, gerado do original (que foi mantido na pasta) assim:
   `ffmpeg -i original.mp4 -an -vf "scale=1920:1080:flags=lanczos,unsharp=lx=5:ly=5:la=0.9:cx=3:cy=3:ca=0.0,eq=contrast=1.10:saturation=1.15:brightness=0.02" -c:v libx264 -preset slow -crf 28 -pix_fmt yuv420p -movflags +faststart saida.mp4`.
   Nitidez mais forte que `la=0.9` cria halos e ruído; CRF menor que 28 deixa o arquivo muito grande (CRF 19 deu 100 MB).
+- Em `themes.json`, um tema pode declarar `"requires": ["themes/city/arquivo.mp4"]`. Se algum desses arquivos
+  não existir na cópia em uso (404), o app **esconde o tema** e avisa embaixo da lista, em vez de mostrar uma
+  animação que não vai tocar. É o que acontece online, onde os vídeos de exemplo não são publicados.
 - Confira a licença do vídeo antes de redistribuir a pasta. **Os vídeos de exemplo (Cidade e Espaço) não vão
   para o repositório** (ver `.gitignore`): para esses dois temas funcionarem depois de clonar, coloque os
   arquivos `themes/city/202824-919000180.mp4` e `themes/space/space-1080p.mp4` (ou troque o nome em

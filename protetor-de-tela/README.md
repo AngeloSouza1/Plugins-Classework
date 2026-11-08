@@ -137,10 +137,10 @@ essas opções ao vivo. Dicas:
 - Em `themes.json`, um tema pode declarar `"requires": ["themes/city/arquivo.mp4"]`. Se algum desses arquivos
   não existir na cópia em uso (404), o app **esconde o tema** e avisa embaixo da lista, em vez de mostrar uma
   animação que não vai tocar. É o que acontece online, onde os vídeos de exemplo não são publicados.
-- Confira a licença do vídeo antes de redistribuir a pasta. **Os vídeos de exemplo (Cidade e Espaço) não vão
-  para o repositório** (ver `.gitignore`): para esses dois temas funcionarem depois de clonar, coloque os
-  arquivos `themes/city/202824-919000180.mp4` e `themes/space/space-1080p.mp4` (ou troque o nome em
-  `data-src` do `index.html` de cada tema). Sem o arquivo, o tema mostra um aviso em vez de quebrar.
+- Confira a licença do vídeo antes de redistribuir a pasta. Os dois vídeos de exemplo estão no repositório
+  (`themes/city/202824-919000180.mp4` e `themes/space/space-1080p.mp4`, uns 40 MB juntos); a licença deles é de
+  quem os publicou, e o vídeo do Espaço vem do Mixkit. O original 720p do Mixkit **não** é publicado (`.gitignore`).
+  Se um arquivo sumir, o tema é escondido sozinho (veja `requires` acima) em vez de quebrar.
 
 ### Publicando no GitHub Pages
 

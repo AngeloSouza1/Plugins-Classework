@@ -1,7 +1,6 @@
-# Vídeos dos temas "Cidade" e "Espaço": ficam só no seu computador.
-# Não sei a licença deles, e este repositório é público (publicar seria redistribuir).
-# Coloque seus próprios .mp4 em themes/city/ e themes/space/ (veja o README).
-themes/*/*.mp4
+# Vídeo original (720p) do Mixkit: nenhum tema o usa (o tema Espaço usa o space-1080p.mp4, gerado a partir dele).
+# Fica só no computador de quem o baixou.
+themes/space/mixkit-*.mp4
 .DS_Store
 node_modules/
 __pycache__/

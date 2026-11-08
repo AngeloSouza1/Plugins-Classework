@@ -105,7 +105,11 @@
 
   function savePrefs() {
     if (embedded) {
-      try { window.parent.postMessage({ type: "plugin:storage:set", value: JSON.stringify(prefs) }, "*"); } catch (_) { /* sem host */ }
+      try {
+        window.parent.postMessage({ type: "plugin:storage:set", value: JSON.stringify(prefs) }, "*");
+        // Automático ligado: pede ao Classework para manter o plugin rodando mesmo com a janela fechada.
+        window.parent.postMessage({ type: "plugin:keepalive", on: !!prefs.enabled }, "*");
+      } catch (_) { /* sem host */ }
     }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
@@ -913,11 +917,15 @@
       booted = true;
       prefs = loadPrefs();
       init();
+      savePrefs(); // reafirma ao Classework se deve manter o plugin vivo
     };
     window.addEventListener("message", function (e) {
-      if (e.source === window.parent && e.data && e.data.type === "plugin:storage") {
+      if (e.source !== window.parent || !e.data) return;
+      if (e.data.type === "plugin:storage") {
         hostRaw = typeof e.data.value === "string" ? e.data.value : null;
         boot();
+      } else if (e.data.type === "plugin:activity" && !overlay.open) {
+        lastActivity = Date.now(); // o usuário está usando o resto do Classework
       }
     });
     try { window.parent.postMessage({ type: "plugin:storage:get" }, "*"); } catch (_) { /* sem host */ }

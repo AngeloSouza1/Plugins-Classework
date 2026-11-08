@@ -842,6 +842,19 @@
         if (el.id === "options-card") closeOptions();
         else closeModalEl(el.id);
       });
+      // Salvar: tudo já é gravado ao mudar; o botão confirma e fecha o painel.
+      var saveBtn = el.querySelector("[data-save-close]");
+      if (saveBtn) saveBtn.addEventListener("click", function () {
+        savePrefs();
+        var note = el.querySelector(".saved-note");
+        if (note) note.textContent = "Salvo ✓";
+        setTimeout(function () {
+          if (note) note.textContent = "";
+          if (el.hidden) return;
+          if (el.id === "options-card") closeOptions();
+          else closeModalEl(el.id);
+        }, 450);
+      });
       el.addEventListener("mousedown", function (e) {
         if (e.target === el && topModal() === el.id) closeTopModal();
       });

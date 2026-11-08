@@ -322,3 +322,7 @@ html.overlay-open, html.overlay-open body { overflow: hidden; }
   .top h1 { font-size: 22px; }
   .row { align-items: stretch; }
 }
+
+.save-row { align-items: center; margin-top: 14px; }
+.saved-note { color: #8ee0a8; font-size: 13px; }
+.dialog > .actions:last-child { justify-content: flex-end; }

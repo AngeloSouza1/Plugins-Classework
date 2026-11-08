@@ -548,11 +548,18 @@
     overlay.enteredFullscreen = false;
   }
 
+  // Dentro do Classework o plugin roda num iframe: pede à página que o expanda para a tela toda
+  // (o navegador não deixa o iframe entrar em tela cheia sozinho). Fora de iframe, não faz nada.
+  function coverHost(on) {
+    try { if (window.parent && window.parent !== window) window.parent.postMessage({ type: "plugin:cover", on: !!on }, "*"); } catch (e) { /* sem host */ }
+  }
+
   function openOverlay(mode, themeId) {
     if (overlay.open) {
       // Já aberto: só sobe para "bloqueado" (ex.: atalho durante o modo ocioso).
       if (mode === "locked" && overlay.mode !== "locked") {
         overlay.mode = "locked";
+        coverHost(true);
         applyMode();
       }
       return;
@@ -573,7 +580,7 @@
     }, READY_TIMEOUT_MS);
     applyMode();
     // Pré-visualização fica só dentro da janela do navegador; tela cheia é para o bloqueio de verdade.
-    if (mode !== "preview") tryFullscreen();
+    if (mode !== "preview") { tryFullscreen(); coverHost(true); }
   }
 
   function closeOverlay() {
@@ -586,6 +593,7 @@
     lockLayer.hidden = true;
     $("preview-close").hidden = true;
     leaveFullscreen();
+    coverHost(false);
     lastActivity = Date.now();
   }
 

@@ -1,0 +1,7 @@
+{
+  "id": "vanta-birds",
+  "name": "Pássaros (Vanta)",
+  "description": "Bando de pássaros em 3D que reage ao mouse, feito com Vanta.js e three.js (MIT). Cores, quantidade e comportamento ajustáveis.",
+  "entry": "index.html",
+  "author": "Vanta.js (tengbao) e three.js"
+}

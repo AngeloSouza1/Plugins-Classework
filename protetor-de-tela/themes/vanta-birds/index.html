@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pássaros (Vanta)</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #07192f; }
+    #bg { position: fixed; inset: 0; width: 100%; height: 100%; }
+    #msg {
+      position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+      color: #cfe3ff; font: 16px system-ui, sans-serif; text-align: center; padding: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="bg"></div>
+  <div id="msg">Este tema precisa de WebGL, que não está disponível neste navegador.</div>
+
+  <script src="../../theme-sdk.js"></script>
+  <!-- Bibliotecas locais (three.js e Vanta.js, ambas MIT; ver _lib/LICENSES.txt): funcionam sem internet. -->
+  <script src="../_lib/three.min.js"></script>
+  <script src="lib/vanta.birds.min.js"></script>
+  <script>
+    (function () {
+      // Mesmos valores padrão declarados em themes/themes.json (usados se o tema abrir sozinho).
+      var DEFAULTS = {
+        backgroundColor: "#07192f", color1: "#ff0000", color2: "#00d1ff", colorMode: "varianceGradient",
+        quantity: 3, birdSize: 1, wingSpan: 30, speedLimit: 5, separation: 20, alignment: 20, cohesion: 20,
+        wakeOnClick: false
+      };
+
+      var effect = null;
+      var lastKey = "";
+      var timer = 0;
+      var wakeOnClick = false;
+
+      function hex(c) {
+        return parseInt(String(c).replace("#", ""), 16);
+      }
+
+      function build(o) {
+        if (effect) {
+          try { effect.destroy(); } catch (_) { /* já destruído */ }
+          effect = null;
+        }
+        try {
+          effect = VANTA.BIRDS({
+            el: "#bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200,
+            minWidth: 200,
+            scale: 1,
+            scaleMobile: 1,
+            backgroundColor: hex(o.backgroundColor),
+            backgroundAlpha: 1,
+            color1: hex(o.color1),
+            color2: hex(o.color2),
+            colorMode: o.colorMode,
+            quantity: o.quantity,
+            birdSize: o.birdSize,
+            wingSpan: o.wingSpan,
+            speedLimit: o.speedLimit,
+            separation: o.separation,
+            alignment: o.alignment,
+            cohesion: o.cohesion
+          });
+          window.vantaEffect = effect; // útil para depuração
+          document.getElementById("msg").style.display = "none";
+        } catch (e) {
+          document.getElementById("msg").style.display = "flex";
+        }
+      }
+
+      // Só refaz a cena quando as opções realmente mudam (o app reenvia o estado a cada troca de modo).
+      function apply(opts) {
+        var merged = {};
+        Object.keys(DEFAULTS).forEach(function (k) {
+          merged[k] = opts && opts[k] !== undefined ? opts[k] : DEFAULTS[k];
+        });
+        wakeOnClick = !!merged.wakeOnClick;
+        var key = JSON.stringify(merged);
+        if (key === lastKey) return;
+        lastKey = key;
+        clearTimeout(timer);
+        timer = setTimeout(function () { build(merged); }, 120); // agrupa ajustes rápidos
+      }
+
+      // O mouse interage com os pássaros: por padrão só tecla fecha. Clique fecha se a opção estiver ligada.
+      window.addEventListener("keydown", function () { ScreensaverTheme.wake(); });
+      window.addEventListener("pointerdown", function () { if (wakeOnClick) ScreensaverTheme.wake(); });
+
+      apply({});
+      ScreensaverTheme.init({
+        autoWake: false,
+        onState: function (s) { apply(s.options); }
+      });
+    })();
+  </script>
+</body>
+</html>

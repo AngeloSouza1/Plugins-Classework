@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meu tema</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #000; }
+    canvas { display: block; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+
+  <!-- SDK opcional: cuida do vai-e-vem de mensagens com o app. -->
+  <script src="../../theme-sdk.js"></script>
+  <script>
+    // 1) Desenhe o que quiser. Use requestAnimationFrame e pause com document.hidden.
+    var canvas = document.getElementById("c");
+    var ctx = canvas.getContext("2d");
+    var t = 0;
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function draw() {
+      requestAnimationFrame(draw);
+      if (document.hidden) return;
+      t += 0.016;
+      ctx.fillStyle = "#101828";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#7fb4ff";
+      var x = canvas.width / 2 + Math.sin(t) * canvas.width * 0.2;
+      ctx.beginPath();
+      ctx.arc(x, canvas.height / 2, 40, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    draw();
+
+    // 2) Avise o app que está pronto. autoWake: clique/toque/tecla fecha o protetor
+    //    (o SDK ignora isso quando o app está bloqueado, quem destrava é o PIN do app).
+    ScreensaverTheme.init({
+      autoWake: true,
+      onState: function (s) {
+        // s.mode é "idle", "locked" ou "preview". Se quiser, mude a arte conforme o modo.
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "id": "relogio",
+  "name": "Relógio",
+  "description": "Relógio grande sobre fundo azul-noite, com barra de segundos e leve deslocamento para não marcar a tela.",
+  "entry": "index.html",
+  "author": "Protetor de tela"
+}

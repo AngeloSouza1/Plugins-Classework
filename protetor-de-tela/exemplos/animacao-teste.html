@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR" translate="no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animação de teste</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #0b1020; }
+    canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+    /* Painel de diagnóstico: mostra o que o app enviou e o que este tema respondeu. */
+    #info {
+      position: fixed; left: 16px; bottom: 16px; max-width: min(92vw, 420px);
+      padding: 12px 14px; border-radius: 12px; background: rgba(8, 12, 28, 0.78);
+      color: #dbe6ff; font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace;
+      border: 1px solid rgba(255, 255, 255, 0.18); pointer-events: none;
+    }
+    #info b { color: #fff; }
+    #info .ok { color: #8ee0a8; }
+    #info .warn { color: #ffd479; }
+    #modo { font-size: 18px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+
+  <div id="info">
+    <div><b>Animação de teste</b> (tema de terceiros, sem SDK)</div>
+    <div>Dentro do app? <span id="emb"></span></div>
+    <div>Modo recebido: <span id="modo">aguardando…</span></div>
+    <div>Opções recebidas: <span id="opts">–</span></div>
+    <div>Mensagens do app: <span id="n">0</span> &nbsp;|&nbsp; Enviei: <span id="sent">–</span></div>
+    <div id="dica"></div>
+  </div>
+
+  <script>
+    // ===== 1) O CONTRATO COM O APP (é só isto) =================================
+    //   app  -> tema:  { type: "screensaver:state", mode: "idle"|"locked"|"preview", now, options }
+    //   tema -> app:   { type: "screensaver:ready" }   ao iniciar
+    //                  { type: "screensaver:wake" }    pedido para fechar (o app ignora se bloqueado)
+    var embedded = window.parent !== window;
+    var mode = "preview";
+    var received = 0;
+    var sent = [];
+
+    function send(type) {
+      if (!embedded) return;
+      try { window.parent.postMessage({ type: type }, "*"); sent.push(type.replace("screensaver:", "")); } catch (e) { /* app indisponível */ }
+      document.getElementById("sent").textContent = sent.slice(-4).join(", ");
+    }
+
+    window.addEventListener("message", function (event) {
+      // Só confie em mensagens da janela que hospeda o tema.
+      if (!embedded || event.source !== window.parent) return;
+      var msg = event.data;
+      if (!msg || msg.type !== "screensaver:state") return;
+      received++;
+      if (msg.mode === "idle" || msg.mode === "locked" || msg.mode === "preview") mode = msg.mode;
+      document.getElementById("n").textContent = String(received);
+      document.getElementById("opts").textContent = msg.options && Object.keys(msg.options).length ? JSON.stringify(msg.options) : "(nenhuma)";
+      showMode();
+    });
+
+    // Fechar: clique ou tecla pedem para fechar. Em "locked" o app ignora (quem destrava é o PIN do app).
+    function wake() { if (mode !== "locked") send("screensaver:wake"); }
+    window.addEventListener("pointerdown", wake);
+    window.addEventListener("keydown", wake);
+
+    // Avise que está pronto. O app responde com o estado atual.
+    send("screensaver:ready");
+
+    // ===== 2) PAINEL DE DIAGNÓSTICO ===========================================
+    function showMode() {
+      var el = document.getElementById("modo");
+      el.textContent = mode;
+      el.className = mode === "locked" ? "warn" : "ok";
+      document.getElementById("dica").innerHTML =
+        mode === "locked" ? "<span class='warn'>Bloqueado: clicar aqui NÃO fecha. Só o PIN/botão do app.</span>" :
+        mode === "idle"   ? "<span class='ok'>Ocioso: clique ou tecla fecha o protetor.</span>" :
+                            "<span class='ok'>Pré-visualização: clique ou tecla fecha.</span>";
+    }
+    document.getElementById("emb").innerHTML = embedded ? "<span class='ok'>sim (iframe isolado)</span>" : "<span class='warn'>não (aberto direto no navegador)</span>";
+    showMode();
+
+    // ===== 3) A ANIMAÇÃO (troque por a sua) ===================================
+    var canvas = document.getElementById("c");
+    var ctx = canvas.getContext("2d");
+    var W = 0, H = 0, dpr = 1;
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    var orbs = [];
+    for (var i = 0; i < 28; i++) {
+      orbs.push({ x: Math.random(), y: Math.random(), r: 14 + Math.random() * 46, vx: (Math.random() - 0.5) * 0.12, vy: (Math.random() - 0.5) * 0.12, hue: Math.floor(Math.random() * 360) });
+    }
+    var last = 0, t = 0;
+    function frame(now) {
+      requestAnimationFrame(frame);
+      if (document.hidden) return;            // boa prática: não desenhe com a aba oculta
+      var dt = last ? Math.min(0.05, (now - last) / 1000) : 0; last = now; t += dt;
+      var g = ctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, "hsl(" + ((t * 12) % 360) + ",55%,12%)");
+      g.addColorStop(1, "hsl(" + ((t * 12 + 70) % 360) + ",60%,22%)");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      for (var k = 0; k < orbs.length; k++) {
+        var o = orbs[k];
+        o.x += o.vx * dt; o.y += o.vy * dt;
+        if (o.x < -0.05) o.x = 1.05; if (o.x > 1.05) o.x = -0.05;
+        if (o.y < -0.05) o.y = 1.05; if (o.y > 1.05) o.y = -0.05;
+        var px = o.x * W, py = o.y * H, pr = o.r * (1 + 0.15 * Math.sin(t * 1.6 + k));
+        var rg = ctx.createRadialGradient(px, py, 0, px, py, pr);
+        rg.addColorStop(0, "hsla(" + o.hue + ",90%,70%,0.9)");
+        rg.addColorStop(1, "hsla(" + o.hue + ",90%,60%,0)");
+        ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(px, py, pr, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>

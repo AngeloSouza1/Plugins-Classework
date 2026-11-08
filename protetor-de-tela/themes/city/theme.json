@@ -1,0 +1,7 @@
+{
+  "id": "city",
+  "name": "Cidade",
+  "description": "Vídeo em loop (1080p, 30 s), sem som.",
+  "entry": "index.html",
+  "author": "vídeo fornecido pelo usuário"
+}

@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rex dormindo</title>
+  <style>
+    /* Base do tema: a cena ocupa a tela inteira. */
+    html, body { margin: 0; height: 100%; overflow: hidden; }
+    body { background: linear-gradient(#bfe8ff, #dff1fb); }
+    svg { display: block; width: 100%; height: 100%; }
+    svg > rect { rx: 0; } /* sem cantos arredondados no céu e na noite */
+    body::before { /* noite também na faixa de céu fora do desenho */
+      content: ""; position: fixed; inset: 0; z-index: -1; background: #102347; opacity: 0;
+      animation: anoitecer 8s ease-in-out 24s forwards;
+    }
+
+    /* Animações originais do desenho (Rex-SVG). */
+    .nuvem {
+      animation: moverNuvem 18s linear infinite, escurecerElemento 8s ease-in-out 24s forwards;
+    }
+
+    .nuvem.lenta {
+      animation-duration: 24s;
+    }
+
+    .arvore-noite {
+      animation: escurecerElemento 8s ease-in-out 24s forwards;
+    }
+
+    .passaro {
+      animation: atravessarCeu 24s linear infinite, sumirAoAnoitecer 4s ease-in-out 24s forwards;
+    }
+
+    .passaro.atraso {
+      animation-delay: -12s;
+    }
+
+    .asa {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .asa.esquerda {
+      animation: baterAsaEsquerda 0.9s ease-in-out infinite;
+    }
+
+    .asa.direita {
+      animation: baterAsaDireita 0.9s ease-in-out infinite;
+    }
+
+    .zz {
+      animation: subirZ 4.2s ease-in-out infinite;
+      transform-origin: center;
+      fill: #ffffff;
+    }
+
+    .zz.z2 {
+      animation-delay: 0.8s;
+    }
+
+    .zz.z3 {
+      animation-delay: 1.6s;
+    }
+
+    .cachorro-cabeca {
+      animation: respirarSono 3.2s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .orelha {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .orelha.esquerda {
+      animation: mexerOrelhaEsquerda 3.2s ease-in-out infinite;
+    }
+
+    .orelha.direita {
+      animation: mexerOrelhaDireita 3.2s ease-in-out infinite;
+    }
+
+    .noite-overlay {
+      opacity: 0;
+      animation: anoitecer 8s ease-in-out 24s forwards;
+      pointer-events: none;
+    }
+
+    .estrelas {
+      opacity: 0;
+      animation: surgirEstrelas 8s ease-in-out 24s forwards;
+      pointer-events: none;
+    }
+
+    .estrela-pisca {
+      animation: surgirEstrelas 8s ease-in-out 24s forwards, piscarEstrela 1.4s ease-in-out 32s infinite;
+    }
+
+    .estrela-pisca.lenta {
+      animation: surgirEstrelas 8s ease-in-out 24s forwards, piscarEstrela 2s ease-in-out 33s infinite;
+    }
+
+    .lua {
+      opacity: 0;
+      animation: aparecerLua 10s ease-in-out 34s forwards;
+      pointer-events: none;
+    }
+
+    @keyframes moverNuvem {
+      0% {
+        transform: translateX(-30px);
+      }
+      50% {
+        transform: translateX(30px);
+      }
+      100% {
+        transform: translateX(-30px);
+      }
+    }
+
+    @keyframes atravessarCeu {
+      0% {
+        transform: translateX(540px) translateY(6px) scale(1);
+      }
+      20% {
+        transform: translateX(330px) translateY(-6px) scale(1.03);
+      }
+      40% {
+        transform: translateX(120px) translateY(-14px) scale(1.05);
+      }
+      60% {
+        transform: translateX(-90px) translateY(-4px) scale(1.02);
+      }
+      80% {
+        transform: translateX(-340px) translateY(-12px) scale(1.04);
+      }
+      100% {
+        transform: translateX(-660px) translateY(8px) scale(1);
+      }
+    }
+
+    @keyframes baterAsaEsquerda {
+      0%, 100% {
+        transform: rotate(10deg) scaleX(1);
+      }
+      50% {
+        transform: rotate(-14deg) scaleX(1.04);
+      }
+    }
+
+    @keyframes baterAsaDireita {
+      0%, 100% {
+        transform: rotate(-10deg) scaleX(1);
+      }
+      50% {
+        transform: rotate(14deg) scaleX(1.04);
+      }
+    }
+
+    @keyframes subirZ {
+      0% {
+        opacity: 0;
+        transform: translateX(-10px) translateY(18px) scale(0.72);
+      }
+      30% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(12px) translateY(-28px) scale(1.08);
+      }
+    }
+
+    @keyframes respirarSono {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(4px);
+      }
+    }
+
+    @keyframes mexerOrelhaEsquerda {
+      0%, 100% {
+        transform: rotate(0deg) translateY(0);
+      }
+      50% {
+        transform: rotate(-6deg) translateY(1px);
+      }
+    }
+
+    @keyframes mexerOrelhaDireita {
+      0%, 100% {
+        transform: rotate(0deg) translateY(0);
+      }
+      50% {
+        transform: rotate(6deg) translateY(1px);
+      }
+    }
+
+    @keyframes anoitecer {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0.52;
+      }
+    }
+
+    @keyframes surgirEstrelas {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes escurecerElemento {
+      0% {
+        filter: brightness(1);
+      }
+      100% {
+        filter: brightness(0.72);
+      }
+    }
+
+    @keyframes sumirAoAnoitecer {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes piscarEstrela {
+      0%, 100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 0px #ffe066);
+      }
+      50% {
+        opacity: 0.55;
+        filter: drop-shadow(0 0 6px #ffe066);
+      }
+    }
+
+    @keyframes aparecerLua {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <svg viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" aria-label="Desenho SVG animado baseado em casa, montanha, nuvens, árvore e cachorro dormindo">
+      <!-- céu -->
+      <rect x="0" y="0" width="1000" height="620" fill="#dff1fb" rx="18" />
+
+      <!-- montanhas de fundo -->
+      <path d="M-40 290 Q90 150 230 170 Q360 188 500 270 Q620 340 735 185 Q840 70 1040 265 L1040 470 L-40 470 Z" fill="#dfeafb" opacity="0.9" />
+      <path d="M-50 330 Q85 190 220 205 Q350 220 485 292 Q610 355 730 230 Q845 112 1045 305 L1045 470 L-50 470 Z" fill="#cfdcf3" opacity="0.92" />
+      <path d="M-40 290 Q90 150 230 170 Q360 188 500 270 Q620 340 735 185 Q840 70 1040 265" fill="none" stroke="#a7bee0" stroke-width="4" stroke-linecap="round" />
+      <path d="M-50 330 Q85 190 220 205 Q350 220 485 292 Q610 355 730 230 Q845 112 1045 305" fill="none" stroke="#7f98c6" stroke-width="3.5" stroke-linecap="round" />
+
+      <!-- chão -->
+      <rect x="0" y="470" width="1000" height="150" fill="#b8df8b" />
+      <line x1="0" y1="470" x2="1000" y2="470" stroke="#679b45" stroke-width="3.5" />
+
+      <!-- colinas ao fundo -->
+      <g>
+        <path d="M-20 500 Q80 395 205 420 Q320 442 430 360 Q555 268 705 342 Q840 410 1020 500 Z" fill="#9bcd7a" stroke="#1f5fbf" stroke-width="4" stroke-linejoin="round" />
+        <path d="M-10 500 Q115 438 245 452 Q390 468 520 398 Q670 318 820 386 Q930 434 1010 500 Z" fill="#86bc67" stroke="#1f5fbf" stroke-width="3.5" stroke-linejoin="round" />
+        <g fill="none" stroke="#5f9444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
+          <path d="M492 409 Q495 401 498 409" />
+          <path d="M498 409 Q502 398 506 409" />
+          <path d="M506 409 Q510 402 513 409" />
+
+          <path d="M653 438 Q656 430 659 438" />
+          <path d="M659 438 Q663 427 667 438" />
+          <path d="M667 438 Q671 431 674 438" />
+
+          <path d="M757 405 Q760 397 763 405" />
+          <path d="M763 405 Q767 394 771 405" />
+          <path d="M771 405 Q775 398 778 405" />
+
+          <path d="M846 456 Q849 448 852 456" />
+          <path d="M852 456 Q856 445 860 456" />
+          <path d="M860 456 Q864 449 867 456" />
+        </g>
+      </g>
+
+      <g class="arvore-noite">
+        <rect x="52" y="390" width="12" height="70" rx="5" fill="#9a6636" />
+        <path d="M25 378
+                 Q25 362 38 361
+                 Q38 344 55 340
+                 Q68 330 85 337
+                 Q100 343 100 360
+                 Q114 362 114 377
+                 Q114 393 100 397
+                 Q93 408 77 408
+                 Q65 416 51 410
+                 Q35 410 29 397
+                 Q17 394 17 381
+                 Q17 378 25 378 Z"
+              fill="#89c867"
+              stroke="#1f5fbf"
+              stroke-width="2.2"
+              stroke-linejoin="round" />
+      </g>
+
+      <!-- árvores distantes -->
+      <g class="arvore-noite">
+        <rect x="560" y="346" width="10" height="58" rx="5" fill="#9a6636" />
+        <path d="M537 336
+                 Q537 322 548 321
+                 Q548 307 562 303
+                 Q573 294 587 300
+                 Q600 305 600 319
+                 Q612 321 612 334
+                 Q612 348 600 351
+                 Q594 360 580 360
+                 Q569 367 557 361
+                 Q543 361 538 350
+                 Q528 347 528 337
+                 Q528 336 537 336 Z"
+              fill="#89c867"
+              stroke="#1f5fbf"
+              stroke-width="2.2"
+              stroke-linejoin="round" />
+      </g>
+
+      <g class="arvore-noite">
+        <rect x="616" y="334" width="12" height="68" rx="5" fill="#9a6636" />
+        <path d="M589 322
+                 Q589 306 602 305
+                 Q602 288 619 284
+                 Q632 274 648 281
+                 Q663 287 663 304
+                 Q677 306 677 321
+                 Q677 337 663 341
+                 Q656 352 640 352
+                 Q628 360 614 354
+                 Q598 354 592 341
+                 Q580 338 580 325
+                 Q580 322 589 322 Z"
+              fill="#89c867"
+              stroke="#1f5fbf"
+              stroke-width="2.2"
+              stroke-linejoin="round" />
+      </g>
+
+      <!-- casa do cachorro -->
+      <g>
+        <polygon points="70,385 205,260 340,385" fill="#d99563" stroke="#1f5fbf" stroke-width="5" stroke-linejoin="round" />
+        <line x1="102" y1="364" x2="308" y2="364" stroke="#b86f43" stroke-width="3" stroke-linecap="round" opacity="0.95" />
+        <line x1="126" y1="341" x2="284" y2="341" stroke="#b86f43" stroke-width="3" stroke-linecap="round" opacity="0.95" />
+        <line x1="150" y1="318" x2="260" y2="318" stroke="#b86f43" stroke-width="3" stroke-linecap="round" opacity="0.95" />
+        <line x1="174" y1="295" x2="236" y2="295" stroke="#b86f43" stroke-width="3" stroke-linecap="round" opacity="0.95" />
+        <rect x="105" y="385" width="200" height="120" fill="#f2c9a2" stroke="#1f5fbf" stroke-width="5" />
+        <path d="M155 505 L155 450 Q155 395 205 395 Q255 395 255 450 L255 505 Z" fill="#243d66" stroke="#1f5fbf" stroke-width="5" />
+      </g>
+
+      <!-- ZZZ -->
+      <g font-size="28" font-family="Verdana, Arial, sans-serif" font-weight="bold">
+        <text class="zz" x="220" y="410">Z</text>
+        <text class="zz z2" x="244" y="387">Z</text>
+        <text class="zz z3" x="270" y="364">Z</text>
+      </g>
+
+      <!-- anoitecer -->
+      <rect class="noite-overlay" x="0" y="0" width="1000" height="620" rx="18" fill="#102347" />
+
+      <!-- estrelas -->
+      <g class="estrelas" fill="#ffe066">
+        <circle class="estrela-pisca" cx="118" cy="88" r="2.4" />
+        <circle cx="156" cy="104" r="1.8" />
+        <circle cx="214" cy="72" r="2.1" />
+        <circle cx="256" cy="90" r="1.7" />
+        <circle class="estrela-pisca lenta" cx="332" cy="102" r="2.3" />
+        <circle cx="374" cy="84" r="1.8" />
+        <circle cx="428" cy="76" r="2.6" />
+        <circle cx="472" cy="116" r="1.9" />
+        <circle cx="564" cy="94" r="2.2" />
+        <circle cx="608" cy="74" r="1.8" />
+        <circle class="estrela-pisca" cx="648" cy="66" r="2.5" />
+        <circle cx="706" cy="98" r="1.7" />
+        <circle cx="772" cy="86" r="2.2" />
+        <circle cx="826" cy="94" r="1.8" />
+        <circle cx="862" cy="72" r="2.4" />
+        <path class="estrela-pisca lenta" d="M170 128 L173 135 L180 138 L173 141 L170 148 L167 141 L160 138 L167 135 Z" />
+        <path d="M286 132 L288 137 L293 139 L288 141 L286 146 L284 141 L279 139 L284 137 Z" />
+        <path d="M514 122 L517 129 L524 132 L517 135 L514 142 L511 135 L504 132 L511 129 Z" />
+        <path class="estrela-pisca lenta" d="M690 122 L692 127 L697 129 L692 131 L690 136 L688 131 L683 129 L688 127 Z" />
+        <path class="estrela-pisca" d="M808 126 L811 133 L818 136 L811 139 L808 146 L805 139 L798 136 L805 133 Z" />
+      </g>
+
+      <!-- lua -->
+      <g class="lua">
+        <circle cx="642" cy="154" r="34" fill="#fff5c9" />
+        <circle cx="652" cy="144" r="28" fill="#7888a3" />
+      </g>
+
+      <!-- nuvens -->
+      <g class="nuvem lenta">
+        <path d="M86 138
+                 Q86 118 104 118
+                 Q108 94 136 94
+                 Q160 94 168 113
+                 Q182 104 196 113
+                 Q208 121 208 136
+                 Q208 154 188 154
+                 L106 154
+                 Q86 154 86 138 Z"
+              fill="#ffffff"
+              stroke="#b7d7f6"
+              stroke-width="2.2"
+              stroke-linejoin="round"
+              stroke-linecap="round" />
+      </g>
+
+      <g class="nuvem">
+        <path d="M150 208
+                 Q150 188 170 188
+                 Q174 162 204 162
+                 Q230 162 238 183
+                 Q252 174 266 183
+                 Q280 191 280 208
+                 Q280 226 258 226
+                 L172 226
+                 Q150 226 150 208 Z"
+              fill="#ffffff"
+              stroke="#b7d7f6"
+              stroke-width="2.2"
+              stroke-linejoin="round"
+              stroke-linecap="round" />
+      </g>
+
+      <g class="nuvem">
+        <path d="M740 236
+                 Q740 212 762 212
+                 Q764 186 792 186
+                 Q816 186 824 205
+                 Q836 198 848 206
+                 Q860 214 860 228
+                 Q860 246 840 246
+                 L762 246
+                 Q740 246 740 236 Z"
+              fill="#ffffff"
+              stroke="#b7d7f6"
+              stroke-width="2.2"
+              stroke-linejoin="round"
+              stroke-linecap="round" />
+      </g>
+
+      <g class="nuvem lenta">
+        <path d="M838 163
+                 Q838 143 856 143
+                 Q859 118 885 118
+                 Q907 118 915 136
+                 Q927 129 938 137
+                 Q950 145 950 158
+                 Q950 175 932 175
+                 L858 175
+                 Q838 175 838 163 Z"
+              fill="#ffffff"
+              stroke="#b7d7f6"
+              stroke-width="2.2"
+              stroke-linejoin="round"
+              stroke-linecap="round" />
+      </g>
+
+      <!-- pássaros -->
+      <g class="passaro">
+        <g class="asa esquerda">
+          <path d="M485 145 Q500 125 515 145" fill="none" stroke="#1f5fbf" stroke-width="3" stroke-linecap="round" />
+        </g>
+        <g class="asa direita">
+          <path d="M515 145 Q530 125 545 145" fill="none" stroke="#1f5fbf" stroke-width="3" stroke-linecap="round" />
+        </g>
+      </g>
+      <g class="passaro atraso">
+        <g class="asa esquerda">
+          <path d="M615 110 Q628 95 641 110" fill="none" stroke="#1f5fbf" stroke-width="3" stroke-linecap="round" />
+        </g>
+        <g class="asa direita">
+          <path d="M641 110 Q654 95 667 110" fill="none" stroke="#1f5fbf" stroke-width="3" stroke-linecap="round" />
+        </g>
+      </g>
+
+      <!-- árvore -->
+      <g class="arvore-noite">
+        <rect x="882" y="328" width="24" height="142" rx="10" fill="#9a6636" />
+        <path d="M828 303
+                 Q828 270 854 268
+                 Q854 236 886 228
+                 Q912 206 943 220
+                 Q972 232 972 264
+                 Q998 268 998 301
+                 Q998 334 970 340
+                 Q957 364 926 364
+                 Q902 378 876 366
+                 Q844 366 832 340
+                 Q808 334 808 310
+                 Q808 303 828 303 Z"
+              fill="#89c867"
+              stroke="#1f5fbf"
+              stroke-width="3.5"
+              stroke-linejoin="round" />
+      </g>
+
+      <!-- cachorro dormindo simples -->
+      <g class="cachorro-cabeca">
+        <path d="M170 471
+                 Q170 445 185 431
+                 Q195 418 212 421
+                 Q225 423 232 434
+                 Q244 436 249 451
+                 Q252 466 246 479
+                 Q236 495 216 499
+                 Q196 502 180 494
+                 Q170 486 170 471 Z"
+              fill="#7e95c5"
+              stroke="#1f5fbf"
+              stroke-width="3"
+              stroke-linejoin="round" />
+        <g class="orelha esquerda">
+          <path d="M182 440
+                   Q173 424 179 415
+                   Q188 412 197 430
+                   Q192 442 182 440 Z"
+                fill="#f06b9a"
+                stroke="#1f5fbf"
+                stroke-width="2.5"
+                stroke-linejoin="round" />
+        </g>
+        <g class="orelha direita">
+          <path d="M222 437
+                   Q230 419 241 416
+                   Q249 424 241 440
+                   Q232 443 222 437 Z"
+                fill="#f06b9a"
+                stroke="#1f5fbf"
+                stroke-width="2.5"
+                stroke-linejoin="round" />
+        </g>
+        <path d="M180 474
+                 Q184 451 203 446
+                 Q212 443 221 446
+                 Q238 451 242 474
+                 Q232 490 211 491
+                 Q190 491 180 474 Z"
+              fill="#fff8f2"
+              stroke="#1f5fbf"
+              stroke-width="2.5"
+              stroke-linejoin="round" />
+        <path d="M209 435 L213 457 L205 457 Z"
+              fill="#fff8f2"
+              stroke="none" />
+        <path d="M191 465 Q197 472 203 465" fill="none" stroke="#1f5fbf" stroke-width="2.2" stroke-linecap="round" />
+        <path d="M218 465 Q224 472 230 465" fill="none" stroke="#1f5fbf" stroke-width="2.2" stroke-linecap="round" />
+        <ellipse cx="210" cy="474" rx="7" ry="5" fill="#1f2430" />
+        <path d="M210 478 Q203 486 194 479" fill="none" stroke="#1f2430" stroke-width="2.4" stroke-linecap="round" />
+        <path d="M210 478 Q217 486 226 479" fill="none" stroke="#1f2430" stroke-width="2.4" stroke-linecap="round" />
+      </g>
+
+      <!-- tigela de racao -->
+      <g class="arvore-noite">
+        <ellipse cx="392" cy="543" rx="44" ry="8" fill="#8fb86a" opacity="0.18" />
+        <path d="M352 526
+                 L432 526
+                 L420 550
+                 Q417 556 409 556
+                 L375 556
+                 Q367 556 364 550
+                 Z"
+              fill="#ffffff"
+              stroke="#1f5fbf"
+              stroke-width="3"
+              stroke-linejoin="round" />
+        <path d="M360 526
+                 Q372 517 392 517
+                 Q412 517 424 526 Z"
+              fill="#7a4d2a"
+              stroke="#1f5fbf"
+              stroke-width="2.5"
+              stroke-linejoin="round" />
+        <text x="392" y="545" text-anchor="middle" fill="#1f5fbf" font-size="14" font-family="Verdana, Arial, sans-serif" font-weight="bold">REX</text>
+        <circle cx="377" cy="522" r="4" fill="#8c5a34" />
+        <circle cx="392" cy="520" r="4.5" fill="#8c5a34" />
+        <circle cx="407" cy="522" r="4" fill="#8c5a34" />
+      </g>
+
+      <!-- tufos de grama -->
+      <g fill="none" stroke="#6ea34d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M88 532 Q92 520 96 532" />
+        <path d="M96 532 Q101 516 107 532" />
+        <path d="M107 532 Q112 521 116 532" />
+
+        <path d="M292 548 Q296 536 300 548" />
+        <path d="M300 548 Q305 532 311 548" />
+        <path d="M311 548 Q316 537 320 548" />
+
+        <path d="M455 551 Q459 539 463 551" />
+        <path d="M463 551 Q468 535 474 551" />
+        <path d="M474 551 Q479 540 483 551" />
+
+        <path d="M618 540 Q622 528 626 540" />
+        <path d="M626 540 Q631 524 637 540" />
+        <path d="M637 540 Q642 529 646 540" />
+
+        <path d="M862 548 Q866 536 870 548" />
+        <path d="M870 548 Q875 532 881 548" />
+        <path d="M881 548 Q886 537 890 548" />
+      </g>
+
+    </svg>
+
+  <script src="../../theme-sdk.js"></script>
+  <script>
+    (function () {
+      var svg = document.querySelector("svg");
+
+      // Telas largas: a cena cobre tudo (corta um pouco as bordas).
+      // Telas estreitas (celular em pé): mostra a cena inteira, encostada embaixo.
+      function fit() {
+        var ratio = window.innerWidth / window.innerHeight;
+        var wide = ratio >= 1.2;
+        svg.setAttribute("preserveAspectRatio", wide ? "xMidYMid slice" : "xMidYMax meet");
+        // Em tela estreita o desenho encosta embaixo; o céu acima dele usa a mesma cor do topo do desenho.
+        var drawH = window.innerWidth * 0.62;
+        document.body.style.background = wide ? "" :
+          "linear-gradient(#bfe8ff 0px, #dff1fb " + Math.max(0, window.innerHeight - drawH) + "px)";
+      }
+      window.addEventListener("resize", fit);
+      fit();
+
+      ScreensaverTheme.init({ autoWake: true });
+    })();
+  </script>
+</body>
+</html>

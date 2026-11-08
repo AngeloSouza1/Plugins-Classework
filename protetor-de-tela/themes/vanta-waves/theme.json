@@ -1,0 +1,7 @@
+{
+  "id": "vanta-waves",
+  "name": "Ondas (Vanta)",
+  "description": "Mar de ondas em 3D que reage ao mouse, feito com Vanta.js e three.js (MIT). Cor, brilho, altura e velocidade ajustáveis.",
+  "entry": "index.html",
+  "author": "Vanta.js (tengbao) e three.js"
+}

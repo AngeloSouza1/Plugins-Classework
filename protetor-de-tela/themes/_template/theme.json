@@ -1,0 +1,7 @@
+{
+  "id": "meu-tema",
+  "name": "Meu tema",
+  "description": "Descreva o tema em uma frase.",
+  "entry": "index.html",
+  "author": "Seu nome"
+}

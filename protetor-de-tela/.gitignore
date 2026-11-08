@@ -1,0 +1,7 @@
+# Vídeos dos temas "Cidade" e "Espaço": ficam só no seu computador.
+# Não sei a licença deles, e este repositório é público (publicar seria redistribuir).
+# Coloque seus próprios .mp4 em themes/city/ e themes/space/ (veja o README).
+themes/*/*.mp4
+.DS_Store
+node_modules/
+__pycache__/

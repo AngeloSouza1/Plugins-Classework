@@ -1,0 +1,311 @@
+{
+  "themes": [
+    {
+      "id": "vanta-birds",
+      "name": "Pássaros (Vanta)",
+      "description": "Bando de pássaros em 3D que reage ao mouse, feito com Vanta.js e three.js (MIT). Cores, quantidade e comportamento ajustáveis.",
+      "path": "themes/vanta-birds/index.html",
+      "options": [
+        {
+          "key": "backgroundColor",
+          "label": "Cor do fundo",
+          "type": "color",
+          "default": "#07192f"
+        },
+        {
+          "key": "color1",
+          "label": "Cor 1 dos pássaros",
+          "type": "color",
+          "default": "#ff0000"
+        },
+        {
+          "key": "color2",
+          "label": "Cor 2 dos pássaros",
+          "type": "color",
+          "default": "#00d1ff"
+        },
+        {
+          "key": "colorMode",
+          "label": "Modo de cor",
+          "type": "select",
+          "default": "varianceGradient",
+          "choices": [
+            {
+              "value": "lerp",
+              "label": "Mistura"
+            },
+            {
+              "value": "variance",
+              "label": "Variação"
+            },
+            {
+              "value": "lerpGradient",
+              "label": "Mistura com degradê"
+            },
+            {
+              "value": "varianceGradient",
+              "label": "Variação com degradê"
+            }
+          ]
+        },
+        {
+          "key": "quantity",
+          "label": "Quantidade",
+          "type": "range",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "key": "birdSize",
+          "label": "Tamanho dos pássaros",
+          "type": "range",
+          "min": 0.5,
+          "max": 3,
+          "step": 0.1,
+          "default": 1
+        },
+        {
+          "key": "wingSpan",
+          "label": "Abertura das asas",
+          "type": "range",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 30
+        },
+        {
+          "key": "speedLimit",
+          "label": "Velocidade máxima",
+          "type": "range",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "key": "separation",
+          "label": "Separação",
+          "type": "range",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "default": 20
+        },
+        {
+          "key": "alignment",
+          "label": "Alinhamento",
+          "type": "range",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "default": 20
+        },
+        {
+          "key": "cohesion",
+          "label": "Coesão",
+          "type": "range",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "default": 20
+        },
+        {
+          "key": "wakeOnClick",
+          "label": "Fechar também com clique",
+          "type": "checkbox",
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "vanta-waves",
+      "name": "Ondas (Vanta)",
+      "description": "Mar de ondas em 3D que reage ao mouse, feito com Vanta.js e three.js (MIT). Cor, brilho, altura e velocidade ajustáveis.",
+      "path": "themes/vanta-waves/index.html",
+      "options": [
+        {
+          "key": "color",
+          "label": "Cor",
+          "type": "color",
+          "default": "#005588"
+        },
+        {
+          "key": "shininess",
+          "label": "Brilho",
+          "type": "range",
+          "min": 0,
+          "max": 150,
+          "step": 1,
+          "default": 30
+        },
+        {
+          "key": "waveHeight",
+          "label": "Altura das ondas",
+          "type": "range",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "default": 15
+        },
+        {
+          "key": "waveSpeed",
+          "label": "Velocidade das ondas",
+          "type": "range",
+          "min": 0,
+          "max": 5,
+          "step": 0.05,
+          "default": 1
+        },
+        {
+          "key": "zoom",
+          "label": "Zoom",
+          "type": "range",
+          "min": 0.5,
+          "max": 2,
+          "step": 0.05,
+          "default": 1
+        },
+        {
+          "key": "wakeOnClick",
+          "label": "Fechar também com clique",
+          "type": "checkbox",
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "rex",
+      "name": "Rex dormindo",
+      "description": "Cenário animado: o Rex dorme ao lado da casa enquanto nuvens e pássaros passam, e o dia vira noite com estrelas e lua.",
+      "path": "themes/rex/index.html"
+    },
+    {
+      "id": "relogio",
+      "name": "Relógio",
+      "description": "Relógio grande sobre fundo azul-noite, com barra de segundos e leve deslocamento para não marcar a tela.",
+      "path": "themes/relogio/index.html"
+    },
+    {
+      "id": "city",
+      "name": "Cidade",
+      "description": "Vídeo em loop (1080p, 30 s), sem som. Brilho, contraste, saturação, velocidade e ajuste à tela configuráveis.",
+      "path": "themes/city/index.html",
+      "options": [
+        {
+          "key": "brightness",
+          "label": "Brilho",
+          "type": "range",
+          "min": 20,
+          "max": 100,
+          "step": 1,
+          "default": 100
+        },
+        {
+          "key": "contrast",
+          "label": "Contraste",
+          "type": "range",
+          "min": 0.7,
+          "max": 1.5,
+          "step": 0.05,
+          "default": 1
+        },
+        {
+          "key": "saturation",
+          "label": "Saturação",
+          "type": "range",
+          "min": 0,
+          "max": 2,
+          "step": 0.05,
+          "default": 1
+        },
+        {
+          "key": "speed",
+          "label": "Velocidade do vídeo",
+          "type": "range",
+          "min": 0.5,
+          "max": 2,
+          "step": 0.05,
+          "default": 1
+        },
+        {
+          "key": "fit",
+          "label": "Ajuste à tela",
+          "type": "select",
+          "default": "cover",
+          "choices": [
+            {
+              "value": "cover",
+              "label": "Preencher a tela"
+            },
+            {
+              "value": "contain",
+              "label": "Mostrar inteiro"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "space",
+      "name": "Espaço",
+      "description": "Estrelas no espaço, vídeo em loop (1080p tratado: mais nítido e com mais contraste), sem som. Brilho, contraste, saturação, velocidade e ajuste à tela configuráveis.",
+      "path": "themes/space/index.html",
+      "options": [
+        {
+          "key": "brightness",
+          "label": "Brilho",
+          "type": "range",
+          "min": 20,
+          "max": 100,
+          "step": 1,
+          "default": 100
+        },
+        {
+          "key": "contrast",
+          "label": "Contraste",
+          "type": "range",
+          "min": 0.7,
+          "max": 1.5,
+          "step": 0.05,
+          "default": 1
+        },
+        {
+          "key": "saturation",
+          "label": "Saturação",
+          "type": "range",
+          "min": 0,
+          "max": 2,
+          "step": 0.05,
+          "default": 1
+        },
+        {
+          "key": "speed",
+          "label": "Velocidade do vídeo",
+          "type": "range",
+          "min": 0.5,
+          "max": 2,
+          "step": 0.05,
+          "default": 1
+        },
+        {
+          "key": "fit",
+          "label": "Ajuste à tela",
+          "type": "select",
+          "default": "cover",
+          "choices": [
+            {
+              "value": "cover",
+              "label": "Preencher a tela"
+            },
+            {
+              "value": "contain",
+              "label": "Mostrar inteiro"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

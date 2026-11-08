@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relógio</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #0b1020; }
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: #e8eefc; font-family: system-ui, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 50% 40%, #1b2a55 0%, #0b1020 70%);
+    }
+    #time { font-size: clamp(64px, 18vw, 220px); font-weight: 200; letter-spacing: 0.04em; }
+    #sec { height: 4px; width: min(60vw, 520px); background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+    #sec i { display: block; height: 100%; width: 0; background: #7fb4ff; transition: width 0.25s linear; }
+    #date { margin-top: 18px; font-size: clamp(14px, 2.4vw, 26px); opacity: 0.7; text-transform: capitalize; }
+    /* o relógio "respira" devagar para evitar marca na tela */
+    #wrap { animation: drift 40s ease-in-out infinite alternate; text-align: center; }
+    @keyframes drift { from { transform: translate(-3vw, -2vh); } to { transform: translate(3vw, 2vh); } }
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <div id="time"></div>
+    <div id="sec"><i></i></div>
+    <div id="date"></div>
+  </div>
+  <script src="../../theme-sdk.js"></script>
+  <script>
+    (function () {
+      var timeFmt = new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" });
+      var dateFmt = new Intl.DateTimeFormat("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+      var timeEl = document.getElementById("time");
+      var dateEl = document.getElementById("date");
+      var bar = document.querySelector("#sec i");
+
+      function tick() {
+        var now = new Date();
+        timeEl.textContent = timeFmt.format(now);
+        dateEl.textContent = dateFmt.format(now);
+        bar.style.width = ((now.getSeconds() + now.getMilliseconds() / 1000) / 60 * 100) + "%";
+      }
+      tick();
+      setInterval(tick, 250);
+
+      ScreensaverTheme.init({ autoWake: true });
+    })();
+  </script>
+</body>
+</html>
